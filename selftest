@@ -1,0 +1,7 @@
+#!/bin/sh
+
+./rtlsdr_wsprd -c K1JT -l FN20 -f 20m -t
+
+echo
+echo
+cat selftest.log

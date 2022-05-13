@@ -754,6 +754,10 @@ int32_t decoderSelfTest() {
     /* Save the test sample */
     writeRawIQfile(iSamples, qSamples, "selftest.iq");
 
+    /* Create and open log file */
+    FILE *g;
+    g = fopen("selftest.log", "a");
+
     /* Search & decode the signal */
     wspr_decode(iSamples, qSamples, samples_len, dec_options, dec_results, &n_results);
 
@@ -761,6 +765,14 @@ int32_t decoderSelfTest() {
     for (uint32_t i = 0; i < n_results; i++) {
         printf("Spot(%i) %6.2f %6.2f %10.6f %2d %7s %6s %2s\n",
                i,
+               dec_results[i].snr,
+               dec_results[i].dt,
+               dec_results[i].freq,
+               (int)dec_results[i].drift,
+               dec_results[i].call,
+               dec_results[i].loc,
+               dec_results[i].pwr);
+        fprintf(g, "%f\t%f\t%f\t%d\t%s\t%s\t%s\n",
                dec_results[i].snr,
                dec_results[i].dt,
                dec_results[i].freq,
