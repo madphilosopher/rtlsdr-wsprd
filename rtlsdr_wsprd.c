@@ -447,6 +447,13 @@ void printSpots(uint32_t n_results) {
         return;
     }
 
+    /* Create and open log file */
+    FILE *f;
+    f = fopen("spots.log", "a");
+    if (f == NULL) {
+        fprintf(stderr, "Cannot open log file...\n");
+        return;
+    }
     for (uint32_t i = 0; i < n_results; i++) {
         printf("Spot :  %04d-%02d-%02d %02d:%02d:%02d %6.2f %6.2f %10.6f %2d %7s %6s %2s\n",
                rx_state.gtm->tm_year + 1900,
@@ -462,7 +469,23 @@ void printSpots(uint32_t n_results) {
                dec_results[i].call,
                dec_results[i].loc,
                dec_results[i].pwr);
+
+        fprintf(f, "%04d-%02d-%02dT%02d:%02d:%02dZ\t%f\t%f\t%f\t%d\t%s\t%s\t%s\n",
+               rx_state.gtm->tm_year + 1900,
+               rx_state.gtm->tm_mon + 1,
+               rx_state.gtm->tm_mday,
+               rx_state.gtm->tm_hour,
+               rx_state.gtm->tm_min,
+               rx_state.gtm->tm_sec,
+               dec_results[i].snr,
+               dec_results[i].dt,
+               dec_results[i].freq,
+               (int)dec_results[i].drift,
+               dec_results[i].call,
+               dec_results[i].loc,
+               dec_results[i].pwr);
     }
+    fflush(f);
 }
 
 
