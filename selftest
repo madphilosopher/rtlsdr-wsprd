@@ -1,7 +1,16 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-./rtlsdr_wsprd -c K1JT -l FN20 -f 20m -t
+FILE="./rtlsdr_wsprd"
 
-echo
-echo
-cat selftest.log
+if [[ -x "$FILE" ]]
+then
+	./rtlsdr_wsprd -c K1JT -l FN20 -f 20m -t
+
+	echo
+	echo
+	cat selftest.log
+
+else
+	echo "ERROR: File '$FILE' is not executable or found"
+fi
+
