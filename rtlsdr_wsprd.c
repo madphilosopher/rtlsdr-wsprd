@@ -486,6 +486,7 @@ void printSpots(uint32_t n_results) {
                dec_results[i].pwr);
     }
     fflush(f);
+    fclose(f);
 }
 
 
@@ -804,6 +805,8 @@ int32_t decoderSelfTest() {
                dec_results[i].loc,
                dec_results[i].pwr);
     }
+    fflush(g);
+    fclose(g);
 
     /* Simple consistency check */
     if (strcmp(dec_results[0].call, "K1JT") &&
